@@ -78,7 +78,7 @@
 			function submitSiteFunc(){
 				if(document.getElementById("suggested-url").value.substring(0,7) == "http://"||document.getElementById("suggested-url").value.substring(0,8) == "https://"){
 					firebase.database().ref('URLsuggestion').once('value', function(snapshot) {
-						var votes = 0;
+						var votes = 1;
 						var index = 0;
 						if(snapshot.val()!=null)
 							index=Object.keys(snapshot.val()).length;
