@@ -16,14 +16,6 @@
 			  	console.log("interactive");
 			  	startTime = new Date();
 			  	updateCountdown = setInterval(updateCountdownFunc,1);
-			  	document.getElementById("redirect-div").addEventListener("click", function(){
-					if(canceled){
-						console.log("HEY");
-						startTime -= 5000;
-						updateCountdown = setInterval(updateCountdownFunc,1);
-						$("#redirect-info").slideDown(100);
-					}
-				});
 			  }
 			};
 			var canceled = false;
@@ -75,6 +67,51 @@
 				$("#addSite").slideUp(100);
 				$("#suggestion-form").slideDown(100);
 			}
+			function clickedDiv(){
+				if(canceled){
+					console.log("HEY");
+					startTime -= 5000;
+					updateCountdown = setInterval(updateCountdownFunc,1);
+					$("#redirect-info").slideDown(100);
+				}
+			}
+			function submitSiteFunc(){
+				if(document.getElementById("suggested-url").value.substring(0,7) == "http://"||document.getElementById("suggested-url").value.substring(0,8) == "https://"){
+					firebase.database().ref('URLsuggestion').once('value', function(snapshot) {
+						var votes = 0;
+						var index = 0;
+						if(snapshot.val()!=null)
+							index=Object.keys(snapshot.val()).length;
+						for (var i = 0; i!= index; i++) {
+							if(snapshot.val()[i]["url"] == document.getElementById("suggested-url").value){
+								votes = snapshot.val()[i]["votes"]+1;
+								index = i;
+								break;
+							}
+						}
+						firebase.database().ref('URLsuggestion').update({
+							[index]: {
+								url: document.getElementById("suggested-url").value,
+								votes:votes
+							}
+						},function(error) {
+							if (error) {
+								console.log(error);
+							} else {
+								$("#suggestion-form").slideUp(100);
+								$("#suggestion-div").slideUp(100,function(){
+									$("#confirmation-message").slideDown(100);
+									$("#suggestion-div").slideDown(100);
+								});
+							}
+						});
+
+					});
+				}else{
+					document.getElementById("suggested-url").value = "http://"+document.getElementById("suggested-url").value;
+					submitSiteFunc();
+				}
+			}
 		</script>
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -83,21 +120,22 @@
 	</head>
 	<body style="">
 		<div id="redirect-div" class = "container-fluid" style="background-color:grey;">
-			<h3 id="redirect-title">You will be directed to an amazing page!</h3>
+			<h3 id="redirect-title" class="text-center" onclick="clickedDiv()">You scanned the QR code!</h3>
 			<div id="redirect-info">
-				<p id="countdown-text" style="display:inline">In <span id="countdown">5</span> seconds...</p><a id="redirect-link"></a>
+				<p id="countdown-text" style="display:inline">You will be redirected in <span id="countdown">5</span> seconds...<br>The page is randomly selected.<br>Use the <em>back</em> button to get back to this page!</p><a id="redirect-link"></a>
 				<br>
 				<small id="skip" onclick="skip()" style="color:blue;">SKIP</small>
 				<small id="stop" onclick="stop()" style="color:red;float: right;">STOP</small>
 			</div>
 		</div>
-		<div id="suggestion-div" class="container-fluid text-center" style="background-color:green;padding-top:15px;padding-bottom:15px;">
+		<div id="suggestion-div" class="container-fluid text-center" style="background-color:green;padding-top:15px;padding-bottom:15px;" onsubmit="return false;">
 			<button id="addSite" class="btn btn-success btn-block btn-lg" onclick="dropSuggestionDiv();stop();">Add a website</button>
 			<form id="suggestion-form" style="display:none;">
-				<input type="url" class="form-control" placeholder="Enter a website's URL"></input>
-				<button id="addSite" class="btn btn-success btn-lg" type="submit">ADD</button><br>
-				<small>Users are randomly redirected to a page</small>
+				<input id="suggested-url" type="url" class="form-control" placeholder="Enter a website's URL"></input>
+				<button id="submitSite" class="btn btn-success btn-lg" type="submit" onclick="submitSiteFunc()">ADD</button><br>
+				<small>(URL needs to start with either http:// or https://)</small>
 			</form>
+			<h1 id = "confirmation-message" style="display:none;">Your suggestion will be added shortly!</h1>
 		</div>
 		<div id="learn-more-div" class="container-fluid text-center" style="background-color:blue;padding-top:15px;padding-bottom:15px;">
 			<a class="btn btn-primary btn-block btn-lg" href="about">ABOUT</a>
