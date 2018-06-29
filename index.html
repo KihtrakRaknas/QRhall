@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 	<head>
 		<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
 		<script>
@@ -20,7 +20,7 @@
 			};
 			var canceled = false;
 			function skip(){
-				startTime -= 5000;
+				startTime -= 10000;
 				$("#skip").slideUp(100);
 				$("#stop").slideUp(100);
 			}
@@ -33,10 +33,10 @@
 				$("#stop").slideUp(100);
 			}
 			function updateCountdownFunc() {
-				if((new Date()-startTime)<4000){
-					document.getElementById("countdown").innerHTML = 5-((new Date()-startTime)/1000 << 0);
+				if((new Date()-startTime)<9000){
+					document.getElementById("countdown").innerHTML = 10-((new Date()-startTime)/1000 << 0);
 				}else{
-			  		if((new Date()-startTime)>=5000){
+			  		if((new Date()-startTime)>=10000){
 			  			if(document.readyState === "complete"){
 			  				if(url != null){
 			  					//location.assign(url);
@@ -70,7 +70,7 @@
 			function clickedDiv(){
 				if(canceled){
 					console.log("HEY");
-					startTime -= 5000;
+					startTime -= 10000;
 					updateCountdown = setInterval(updateCountdownFunc,1);
 					$("#redirect-info").slideDown(100);
 				}
@@ -117,27 +117,28 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     	<title>QR-In-The-Hall</title>
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    	<link href=favicon.ico rel="shortcut icon"type=image/x-icon>
 	</head>
-	<body style="">
-		<div id="redirect-div" class = "container-fluid" style="background-color:grey;">
+	<body style="height: 100%">
+		<div id="redirect-div" class = "container-fluid" style="background-color:#ededed;">
 			<h3 id="redirect-title" class="text-center" onclick="clickedDiv()">You scanned the QR code!</h3>
 			<div id="redirect-info">
-				<p id="countdown-text" style="display:inline">You will be redirected in <span id="countdown">5</span> seconds...<br>The page is randomly selected.<br>Use the <em>back</em> button to get back to this page!</p><a id="redirect-link"></a>
+				<p id="countdown-text" style="display:inline">You will be redirected in <span id="countdown">10</span> seconds...<br>The page will be <em>randomly</em> selected.<br>You will get a different site every time you come back to this site.<br><strong>Use the <em>BACK</em> button to get back to this page</strong></p><a id="redirect-link"></a>
 				<br>
 				<small id="skip" onclick="skip()" style="color:blue;">SKIP</small>
 				<small id="stop" onclick="stop()" style="color:red;float: right;">STOP</small>
 			</div>
 		</div>
-		<div id="suggestion-div" class="container-fluid text-center" style="background-color:green;padding-top:15px;padding-bottom:15px;" onsubmit="return false;">
+		<div id="suggestion-div" class="container-fluid text-center" style="background-color:#e8fce8;padding-top:15px;padding-bottom:15px;">
 			<button id="addSite" class="btn btn-success btn-block btn-lg" onclick="dropSuggestionDiv();stop();">Add a website</button>
-			<form id="suggestion-form" style="display:none;">
+			<form id="suggestion-form" style="display:none;" onsubmit="return false;">
 				<input id="suggested-url" type="url" class="form-control" placeholder="Enter a website's URL"></input>
 				<button id="submitSite" class="btn btn-success btn-lg" type="submit" onclick="submitSiteFunc()">ADD</button><br>
 				<small>(URL needs to start with either http:// or https://)</small>
 			</form>
 			<h1 id = "confirmation-message" style="display:none;">Your suggestion will be added shortly!</h1>
 		</div>
-		<div id="learn-more-div" class="container-fluid text-center" style="background-color:blue;padding-top:15px;padding-bottom:15px;">
+		<div id="learn-more-div" class="container-fluid text-center" style="background-color:#e8f1fc;padding-top:15px;padding-bottom:15px;">
 			<a class="btn btn-primary btn-block btn-lg" href="about">ABOUT</a>
 		</div>
 
