@@ -16,6 +16,22 @@
 			  	console.log("interactive");
 			  	startTime = new Date();
 			  	updateCountdown = setInterval(updateCountdownFunc,1);
+			  	if((startTime.getHours()==14&&startTime.getMinutes()>25)||startTime.getHours()>14){
+					document.getElementById("body").style.backgroundColor = "#262626";
+					document.getElementById("redirect-div").style.backgroundColor = "";
+					document.getElementById("suggestion-div").style.backgroundColor = "";
+					document.getElementById("learn-more-div").style.backgroundColor = "";
+					document.getElementById("addSite").style.backgroundColor = "#71f2a3";
+					document.getElementById("about").style.backgroundColor = "#71f2a3";
+					document.getElementById("submitSite").style.backgroundColor = "#71f2a3";
+					document.getElementById("addSite").style.color = "black";
+					document.getElementById("about").style.color = "black";
+					document.getElementById("submitSite").style.color = "black";
+					document.getElementById("redirect-div").style.color = "white";
+					document.getElementById("confirmation-message").style.color = "white";
+					document.getElementById("redirect-link").style.color = "aqua";
+					document.getElementById("skip").style.color = "aqua";
+				}
 			  }
 			};
 			var canceled = false;
@@ -39,7 +55,7 @@
 			  		if((new Date()-startTime)>=10000){
 			  			if(document.readyState === "complete"){
 			  				if(url != null){
-			  					location.assign(url);
+			  					//location.assign(url);
 								$("#skip").slideUp(100);
 								$("#stop").slideUp(100);
 			  					$("#redirect-info").slideUp(100, function() {
@@ -119,14 +135,14 @@
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     	<link href=favicon.ico rel="shortcut icon"type=image/x-icon>
 	</head>
-	<body style="height: 100%">
+	<body id="body" style="height: 100%">
 		<div id="redirect-div" class = "container-fluid" style="background-color:#ededed;">
 			<h3 id="redirect-title" class="text-center" onclick="clickedDiv()">You scanned the QR code!</h3>
 			<div id="redirect-info">
 				<p id="countdown-text" style="display:inline">You will be redirected in <span id="countdown">10</span> seconds...<br>The page will be <em>randomly</em> selected.<br>You will get a different site every time you come back to this site.<br><strong>Use the <em>BACK</em> button to get back to this page</strong></p><a id="redirect-link"></a>
 				<br>
 				<small id="skip" onclick="skip()" style="color:blue;">SKIP</small>
-				<small id="stop" onclick="stop()" style="color:red;float: right;">STOP</small>
+				<small id="stop" onclick="stop()" style="color:#ff2d2d;float: right;">STOP</small>
 			</div>
 		</div>
 		<div id="suggestion-div" class="container-fluid text-center" style="background-color:#e8fce8;padding-top:10%;padding-bottom:10%;">
@@ -138,7 +154,7 @@
 			<h1 id = "confirmation-message" style="display:none;">Your suggestion will be added shortly!</h1>
 		</div>
 		<div id="learn-more-div" class="container-fluid text-center" style="background-color:#e8f1fc;padding-top:10%;padding-bottom:10%;">
-			<a class="btn btn-primary btn-block btn-lg" href="about">ABOUT</a>
+			<a id="about" class="btn btn-primary btn-block btn-lg" href="about">ABOUT</a>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
