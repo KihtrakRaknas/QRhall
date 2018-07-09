@@ -73,7 +73,7 @@
 			  				document.getElementById("countdown-text").innerHTML = "So... apparently we still have to wait for THIS web page to load...";
 			  			}
 			  		}else{
-			  			document.getElementById("countdown-text").innerHTML = "You are being redirected!";
+			  			document.getElementById("countdown-text").innerHTML = "Click the <strong><em>Back</em></strong> to get back to this site!";
 			  		}
 			  	}
 			}
@@ -149,7 +149,7 @@
 		<div id="suggestion-div" class="container-fluid text-center" style="background-color:#e8fce8;padding-top:10%;padding-bottom:10%;">
 			<button id="addSite" class="btn btn-success btn-block btn-lg" onclick="dropSuggestionDiv();stop();">Add a website</button>
 			<form id="suggestion-form" style="display:none;" onsubmit="return false;">
-				<input id="suggested-url" type="url" class="form-control" placeholder="Enter a website's URL"></input><br>
+				<input id="suggested-url" type="url" class="form-control" placeholder="Enter a website's URL"><br>
 				<button id="submitSite" class="btn btn-success btn-lg" type="submit" onclick="submitSiteFunc()">ADD</button><br>
 			</form>
 			<h1 id = "confirmation-message" style="display:none;">Your suggestion will be added shortly!</h1>
